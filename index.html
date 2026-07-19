@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rekka — Règlement du Serveur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#050b18;
+    --bg-1:#0d1a34;
+    --bg-2:#16294f;
+    --panel:#eef1fa;
+    --panel-ink:#10182b;
+    --panel-dim:#5b6480;
+    --line:rgba(255,255,255,.09);
+    --white:#f4f7ff;
+    --text-dim:#93a0c4;
+    --hero-blue:#2f8fef;
+    --hero-red:#ff4d4d;
+    --hero-green:#22e0a0;
+    --hero-orange:#ff9a34;
+    --hero-purple:#b478ff;
+    --hero-cyan:#3fd0ff;
+    --hero-pink:#ff5c96;
+    --crit:#ff4141;
+    --warn:#ffb020;
+    --info:#3fa9f5;
+    --good:#1fb87e;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(1000px 600px at 10% -10%, rgba(47,143,239,.30), transparent 60%),
+      radial-gradient(800px 500px at 105% -5%, rgba(180,120,255,.20), transparent 55%),
+      radial-gradient(700px 460px at 50% 115%, rgba(255,77,77,.14), transparent 60%),
+      linear-gradient(180deg, #060d1c 0%, #030710 100%);
+    color:var(--white);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    padding:40px 20px 60px;
+  }
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:.5;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0px, rgba(255,255,255,.025) 1px, transparent 1px, transparent 68px),
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 70% 65%, rgba(255,255,255,.3), transparent),
+      radial-gradient(1px 1px at 85% 20%, rgba(255,255,255,.35), transparent);
+  }
+  .page{ max-width:1120px; margin:0 auto; position:relative; z-index:1; }
+
+  /* ===== TOP HEADER ===== */
+  .top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:26px;
+  }
+  .top-left{ display:flex; align-items:center; gap:16px; }
+  .logo-mini{
+    width:56px; height:56px; flex:none;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--bg-1);
+    border:1.5px solid rgba(63,208,255,.4);
+    border-radius:12px;
+    box-shadow:0 0 0 1px rgba(255,255,255,.04), 0 16px 32px -10px rgba(47,143,239,.55);
+  }
+  .logo-mini img{ width:36px; height:auto; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--hero-cyan);
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Bungee', 'Oswald', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    font-size:clamp(24px, 4vw, 34px);
+    letter-spacing:.01em;
+    line-height:1.05;
+    color:var(--white);
+    -webkit-text-stroke:1px rgba(5,11,24,.5);
+    text-shadow:0 2px 0 rgba(5,11,24,.5), 0 5px 18px rgba(47,143,239,.35);
+  }
+  .readfirst{
+    display:inline-block;
+    margin-top:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:#04101f;
+    background:var(--hero-cyan);
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:600;
+  }
+
+  /* ===== LAYOUT ===== */
+  .layout{
+    display:grid;
+    grid-template-columns:270px 1fr;
+    gap:18px;
+    align-items:start;
+  }
+  @media (max-width:760px){
+    .layout{ grid-template-columns:1fr; }
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar{
+    background:var(--bg-1);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    position:sticky;
+    top:20px;
+  }
+  @media (max-width:760px){ .sidebar{ position:static; } }
+  .side-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:12px;
+  }
+  .cat-list{ display:flex; flex-direction:column; gap:6px; margin-bottom:22px; }
+  .cat-btn{
+    all:unset;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:9px;
+    border-left:3px solid transparent;
+    transition:background .15s, border-color .15s;
+  }
+  .cat-btn:hover{ background:rgba(255,255,255,.05); }
+  .cat-btn.active{
+    background:var(--bg-2);
+    border-left-color:var(--accent, var(--hero-blue));
+  }
+  .cat-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    font-weight:700;
+    color:#04101f;
+    background:var(--accent, var(--hero-blue));
+    padding:3px 6px;
+    border-radius:5px;
+    flex:none;
+  }
+  .cat-name{
+    font-size:13.5px;
+    font-weight:500;
+    flex:1;
+    color:var(--white);
+  }
+  .cat-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--text-dim);
+    background:rgba(255,255,255,.07);
+    padding:2px 7px;
+    border-radius:20px;
+    flex:none;
+  }
+
+  .important-box{
+    background:rgba(63,208,255,.08);
+    border:1px solid rgba(63,208,255,.3);
+    border-radius:10px;
+    padding:14px 15px;
+    margin-bottom:20px;
+  }
+  .ib-title{
+    font-family:'Oswald', sans-serif;
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--hero-cyan);
+    margin-bottom:6px;
+    font-weight:600;
+  }
+  .important-box p{ font-size:12.5px; line-height:1.5; color:var(--text-dim); }
+
+  .legend{ border-top:1px solid var(--line); padding-top:16px; }
+  .legend-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:10px;
+  }
+  .legend-row{
+    display:flex; align-items:center; gap:9px;
+    font-size:12.5px; color:var(--text-dim);
+    padding:4px 0;
+  }
+  .dot{ width:9px; height:9px; border-radius:50%; flex:none; box-shadow:0 0 8px currentColor; }
+  .dot.critique{ background:var(--crit); color:var(--crit); }
+  .dot.avertissement{ background:var(--warn); color:var(--warn); }
+  .dot.information{ background:var(--info); color:var(--info); }
+
+  /* ===== MAIN CONTENT ===== */
+  .content{
+    background:var(--panel);
+    color:var(--panel-ink);
+    border-radius:14px;
+    padding:26px 28px 30px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.55);
+    min-height:400px;
+  }
+  .search-wrap{ margin-bottom:20px; }
+  #searchInput{
+    width:100%;
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    padding:12px 16px;
+    border-radius:9px;
+    border:1.5px solid rgba(16,23,43,.15);
+    background:#fff;
+    color:var(--panel-ink);
+    outline:none;
+    transition:border-color .15s;
+  }
+  #searchInput:focus{ border-color:var(--hero-blue); }
+  #searchInput::placeholder{ color:#8891a8; }
+
+  .content-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-bottom:16px;
+    margin-bottom:14px;
+    border-bottom:3px solid var(--accent, var(--hero-blue));
+  }
+  .ch-badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    font-weight:700;
+    background:var(--accent, var(--hero-blue));
+    color:#04101f;
+    padding:6px 10px;
+    border-radius:7px;
+    flex:none;
+  }
+  .content-head h2{
+    font-family:'Bungee', 'Oswald', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    font-size:19px;
+    letter-spacing:.01em;
+    color:var(--panel-ink);
+  }
+  .ch-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--panel-dim);
+  }
+
+  /* ===== RULE ROWS ===== */
+  .rule-row{
+    border-bottom:1px solid rgba(16,23,43,.1);
+  }
+  .rule-row:last-child{ border-bottom:none; }
+  .rule-head{
+    all:unset;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    padding:13px 4px;
+  }
+  .rn{
+    width:24px; height:24px; flex:none;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; font-weight:700;
+    color:#fff;
+  }
+  .rn.critique{ background:var(--crit); }
+  .rn.avertissement{ background:var(--warn); }
+  .rn.information{ background:var(--info); }
+  .rt{ flex:1; font-size:14.5px; font-weight:500; }
+  .cat-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    color:var(--panel-dim);
+    background:rgba(16,23,43,.08);
+    padding:2px 6px;
+    border-radius:5px;
+    flex:none;
+  }
+  .chev{
+    flex:none;
+    font-size:18px;
+    color:#8891a8;
+    transition:transform .2s;
+  }
+  .rule-row.open .chev{ transform:rotate(90deg); }
+
+  .rule-body{
+    display:none;
+    padding:0 4px 18px 40px;
+    animation:rise .25s ease;
+  }
+  .rule-row.open .rule-body{ display:block; }
+  @keyframes rise{ from{ opacity:0; transform:translateY(-4px);} to{ opacity:1; transform:none; } }
+  .rule-body p{ font-size:13.5px; line-height:1.6; color:#31374a; }
+  .rule-body ul{ margin-top:10px; padding-left:0; list-style:none; }
+  .rule-body ul li{
+    font-size:13px; line-height:1.55; color:#31374a;
+    padding:5px 0 5px 16px;
+    position:relative;
+  }
+  .rule-body ul li::before{
+    content:"»";
+    position:absolute; left:0; color:var(--accent, var(--hero-blue)); font-weight:700;
+  }
+
+  .example{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .ex{ border-left:3px solid; padding:8px 12px; border-radius:0 7px 7px 0; background:rgba(16,23,43,.045); }
+  .ex.bad{ border-color:var(--crit); }
+  .ex.good{ border-color:var(--good); }
+  .ex.neutral{ border-color:var(--warn); }
+  .ex-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px; font-weight:700; letter-spacing:.05em;
+    text-transform:uppercase;
+    display:block; margin-bottom:3px;
+  }
+  .ex.bad .ex-label{ color:#d63333; }
+  .ex.good .ex-label{ color:var(--good); }
+  .ex.neutral .ex-label{ color:#a56c0a; }
+  .ex p{ font-size:13px !important; color:#31374a !important; }
+
+  .mini-table{ margin-top:10px; border-collapse:collapse; font-size:12.5px; }
+  .mini-table th, .mini-table td{ padding:6px 14px 6px 0; text-align:left; }
+  .mini-table th{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--panel-dim); border-bottom:1px solid rgba(16,23,43,.15); }
+  .mini-table td{ border-bottom:1px solid rgba(16,23,43,.08); color:#31374a; }
+  .mini-table td:last-child{ font-family:'IBM Plex Mono', monospace; color:var(--accent, var(--hero-blue)); font-weight:700; }
+
+  .empty{ padding:30px 4px; color:var(--panel-dim); font-size:14px; text-align:center; }
+
+  /* ===== UPDATE BOX + FOOTER ===== */
+  .update-box{
+    margin-top:22px;
+    background:rgba(63,208,255,.07);
+    border:1px solid rgba(63,208,255,.3);
+    border-radius:12px;
+    padding:16px 20px;
+  }
+  .update-box b{
+    font-family:'Oswald', sans-serif;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    color:var(--hero-cyan);
+  }
+  .update-box p{ font-size:12.5px; color:var(--text-dim); margin-top:5px; line-height:1.5; }
+
+  .page-footer{
+    text-align:center;
+    margin-top:34px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    color:var(--text-dim);
+  }
+  .page-footer a{ color:var(--hero-cyan); text-decoration:none; }
+  .page-footer a:hover{ text-decoration:underline; }
+
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="page">
+
+  <div class="top">
+    <div class="top-left">
+      <div class="logo-mini"><img src="data:image/png;base64,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" alt="Logo Rekka"></div>
+      <div>
+        <div class="eyebrow">Rekka — My Hero Academia RP</div>
+        <h1>Règlement du Serveur</h1>
+        <div class="readfirst">À lire avant de jouer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-label">Catégories</div>
+      <div class="cat-list" id="catList"></div>
+
+      <div class="important-box">
+        <div class="ib-title">ℹ Important</div>
+        <p>L'ignorance du règlement ne t'exempte pas des sanctions. Prends le temps de tout lire attentivement avant de rejoindre le RP.</p>
+      </div>
+
+      <div class="legend">
+        <div class="legend-title">Gravité</div>
+        <div class="legend-row"><span class="dot critique"></span>Critique</div>
+        <div class="legend-row"><span class="dot avertissement"></span>Avertissement</div>
+        <div class="legend-row"><span class="dot information"></span>Information</div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="search-wrap">
+        <input id="searchInput" type="text" placeholder="Rechercher une règle...">
+      </div>
+      <div class="content-head">
+        <div class="ch-badge" id="chBadge">RG</div>
+        <div>
+          <h2 id="chTitle">—</h2>
+          <span class="ch-count" id="chCount">—</span>
+        </div>
+      </div>
+      <div class="rule-list" id="ruleList"></div>
+    </main>
+  </div>
+
+  <div class="update-box">
+    <b>⚠ Mise à jour du règlement</b>
+    <p>Le règlement peut être modifié à tout moment par l'administration selon les besoins du serveur. Toute modification majeure sera annoncée sur le Discord ou directement en jeu. Dernière mise à jour : 18/07/2026.</p>
+  </div>
+
+  <footer class="page-footer">Rekka — MHA RP · Règlement Joueurs</footer>
+
+</div>
+
+<script>
+const CATS = [
+  {id:'rg', code:'RG', name:'Règles Générales', accent:'#ff4d4d'},
+  {id:'rp', code:'RP', name:'Fondamentaux RP', accent:'#22e0a0'},
+  {id:'cb', code:'CB', name:'Combat', accent:'#ff9a34'},
+  {id:'qr', code:'AR', name:'Alters Rares', accent:'#b478ff'},
+  {id:'co', code:'CO', name:'Communication', accent:'#3fd0ff'},
+  {id:'sa', code:'SA', name:'Sanctions', accent:'#ff5c96'},
+];
+
+const RULES = [
+  // ===== RG =====
+  {id:'rg1', cat:'rg', sev:'critique', title:"IC / OOC — Interdiction du Méta-Gaming",
+    body:`L'IC (In Character) regroupe toutes les paroles, décisions et actions de ton personnage : elles doivent rester cohérentes avec son histoire, sa personnalité et ses limites. L'OOC (Out of Character) regroupe tout ce qui sort de l'univers RP (discussions hors-jeu, Discord, etc.). Il est strictement interdit de mélanger les deux, notamment d'utiliser une information apprise hors RP pour agir en RP.`,
+    exBad:`Voir un vilain commettre un délit sur le stream Twitch d'un joueur, puis partir l'arrêter en RP sans jamais l'avoir croisé IC.`,
+    exGood:`Attendre que ton personnage découvre l'information par une source IC (témoin, enquête, patrouille) avant d'agir.`},
+  {id:'rg2', cat:'rg', sev:'critique', title:"Respect et conduite générale",
+    body:`Le respect est absolu entre joueurs, en RP comme hors RP. Aucune insulte, discrimination ou harcèlement ne sera toléré. Les provocations RP restent autorisées tant qu'elles demeurent crédibles et respectueuses envers le joueur derrière l'écran. Les discussions hors RP se font uniquement dans les canaux ou zones dédiées, et les décisions du staff doivent être respectées en toutes circonstances : toute contestation se fait exclusivement via un ticket Discord — la contester directement en jeu entraîne une sanction supplémentaire.`},
+  {id:'rg3', cat:'rg', sev:'avertissement', title:"Identité du personnage",
+    body:`Ton personnage doit avoir un prénom et un nom cohérents avec l'univers, sans pseudo ni référence à des personnes ou personnages existants. Il doit aussi avoir une histoire crédible et un comportement logique avec son Alter et son passé.`,
+    list:[`Pseudos interdits : Deku_Xx99, AllMightyMouse, GokuSan`],
+    exBad:`Un personnage avec un Alter de feu qui plonge dans une piscine sans la moindre gêne.`},
+  {id:'rg4', cat:'rg', sev:'critique', title:"Exploits et bugs",
+    body:`Utiliser un bug pour obtenir un avantage entraîne un bannissement immédiat. Le prop-block et le prop-climb sont interdits. Il est également interdit d'utiliser un Alter de déplacement pour traverser un mur, un sol ou une zone bloquée, ainsi que de masquer artificiellement son costume ou son Alter pour tromper la reconnaissance IC en pleine scène.`},
+  {id:'rg5', cat:'rg', sev:'avertissement', title:"Arnaques et échanges",
+    body:`Les arnaques sont strictement interdites. Les seuls échanges sûrs se font via le market ou via un ticket Discord pour tout échange dépassant 1 000 000 ¥. Le serveur ne garantit pas les échanges passant par d'autres moyens.`},
+  {id:'rg6', cat:'rg', sev:'information', title:"Character Kill (CK)",
+    body:`Aucun Character Kill n'est autorisé sans l'autorisation d'un administrateur. Un dossier solide, détaillant des raisons valides, doit être soumis et validé au préalable.`},
+  {id:'rg7', cat:'rg', sev:'critique', title:"RP à caractère sexuel",
+    body:`Ce type de RP est strictement interdit, sans exception. Toute allusion ou tentative sera sanctionnée d'un bannissement permanent.`},
+
+  // ===== RP =====
+  {id:'rp1', cat:'rp', sev:'avertissement', title:"Power-Gaming",
+    body:`Forcer des actions irréalistes, ignorer les lois physiques du monde ou retirer toute liberté de réaction aux autres joueurs est interdit — même avec un Alter puissant, l'issue d'une action reste incertaine.`,
+    exBad:`Traverser un immeuble en flammes sans la moindre égratignure, alors que l'Alter du personnage n'offre aucune protection contre la chaleur.`,
+    exGood:`/me tente de traverser le bâtiment en feu, mais la chaleur devient insoutenable + /roll pour l'issue.`},
+  {id:'rp2', cat:'rp', sev:'avertissement', title:"FearRP",
+    body:`Ton personnage n'est pas un héros sans peur : ignorer un danger extrême est interdit, même s'il possède un Alter offensif.`,
+    exGood:`Fuir ou montrer une panique clairement RP face à un vilain surpuissant ou un Nomu hors de contrôle.`},
+  {id:'rp3', cat:'rp', sev:'avertissement', title:"NLR — Nouvelle Vie",
+    body:`Après la mort de ton personnage, celui-ci revient confus et ne garde que des souvenirs flous de ce qu'il s'est passé. Il est impossible de revenir dans la zone de sa mort avant 10 minutes.`,
+    exBad:`Revenir immédiatement affronter la personne qui vient de te tuer.`,
+    exGood:`Attendre au moins 10 minutes avant de retourner dans la zone, avec des souvenirs flous des évènements.`},
+  {id:'rp4', cat:'rp', sev:'avertissement', title:"Win RP et Pain RP",
+    body:`Le Win RP consiste à toujours vouloir avoir le dernier mot ou sortir gagnant, sans jamais laisser de place à l'échec : c'est interdit. Le Pain RP oblige à jouer la douleur et les effets d'une action subie — personne n'est invincible, même avec un Alter de résistance.`,
+    exBad:`Se relever comme si de rien n'était après une attaque puissante.`,
+    exGood:`/me gémit et recule lentement, un bras engourdi par le choc.`},
+  {id:'rp5', cat:'rp', sev:'avertissement', title:"Refus de scène",
+    body:`Ignorer une scène RP commencée avec toi est interdit. Fuir sans raison RP ou se déconnecter en pleine arrestation ou poursuite est sanctionné.`,
+    exBad:`Se déconnecter en pleine arrestation pour échapper aux conséquences.`,
+    exGood:`Jouer la scène jusqu'à sa conclusion RP, quelle que soit l'issue pour ton personnage.`},
+  {id:'rp6', cat:'rp', sev:'avertissement', title:"FailRP",
+    body:`Toute action ou comportement qui brise la cohérence de ton personnage ou de l'univers RP est interdit.`,
+    exBad:`Se faire immobiliser par l'Alter d'un vilain et continuer à agir normalement comme si de rien n'était.`},
+  {id:'rp7', cat:'rp', sev:'avertissement', title:"Fast RP",
+    body:`Faire une action mécaniquement possible mais irréaliste dans le temps du monde RP est interdit.`,
+    exBad:`Changer de costume de héros instantanément pour ne plus être reconnu.`,
+    exGood:`Utiliser un /me ou /na pour décrire le changement et laisser le temps à l'autre joueur de réagir.`},
+
+  // ===== CB =====
+  {id:'cb1', cat:'cb', sev:'avertissement', title:"Zones de combat",
+    body:`Les combats servent à régler des conflits ou à mettre en scène un affrontement héros/vilain. Ils sont interdits dans les villes et zones publiques, sauf scène de vilain scénarisée assumant les conséquences. Utilisez les zones d'entraînement ou terrains reculés prévus à cet effet.`},
+  {id:'cb2', cat:'cb', sev:'information', title:"Mêlée générale",
+    body:`En mêlée générale, les affrontements sont limités à 4 combattants maximum par camp. Si le nombre de participants dépasse ce seuil, ils se divisent en plusieurs groupes distincts selon leur proximité au moment de l'engagement.`,
+    exNeutral:`16 participants présents → 2 combats de 4v4. Un combattant engagé dans un groupe ne peut pas interférer dans un autre groupe.`},
+  {id:'cb3', cat:'cb', sev:'avertissement', title:"Pain RP en combat",
+    body:`Un personnage qui n'est pas mis hors combat doit jouer les conséquences des coups reçus. Il ne peut pas se relever et repartir comme si de rien n'était.`,
+    exBad:`Encaisser plusieurs attaques puissantes et continuer à se battre sans en subir les effets.`,
+    exGood:`/me trébuche, ralenti par la douleur et les dommages subis.`},
+  {id:'cb4', cat:'cb', sev:'critique', title:"Alter utilisé sur un civil",
+    body:`Un civil n'est pas préparé à encaisser un Alter. Utiliser un Alter offensif sur un civil revient presque toujours à le tuer ou le mutiler gravement. Sauf situation narrative d'une gravité extrême et justifiée, c'est considéré comme du FailRP.`},
+  {id:'cb5', cat:'cb', sev:'avertissement', title:"Alters interdits en combat RP",
+    body:`Les Alters de vol et d'invisibilité sont interdits en combat RP, sauf événement spécial validé par le staff. Un Alter de vol ne peut en aucun cas servir à fuir une scène en cours.`},
+
+  // ===== QR =====
+  {id:'qr1', cat:'qr', sev:'critique', title:"Alters de contrôle, marquage & liens psychiques",
+    body:`Tout Alter de contrôle direct, de marquage ou de lien psychique doit être validé par le staff via une trame RP avant sa mise en place.`,
+    list:[
+      `Le contrôle direct des actions d'un joueur est interdit sans validation`,
+      `L'altération forcée de la personnalité ou des décisions est interdite sans validation`,
+      `La lecture de mémoire nécessite le consentement du joueur ciblé ou un roll encadré`,
+      `Sans validation staff, l'action est nulle et sanctionnable`
+    ]},
+  {id:'qr2', cat:'qr', sev:'information', title:"La Résonance",
+    body:`La Résonance est une forme rare de perception liée à l'énergie des Alters, présente chez une poignée d'individus dotés d'un Alter de perception ou d'esprit particulièrement développé. Elle doit être utilisée comme un outil narratif profond, favorisant les interactions RP — jamais comme un moyen de détection systématique, de métagaming ou d'avantage injustifié. Toute demande liée à la Résonance doit faire l'objet d'une validation préalable par le staff RP via ticket, avec une trame RP écrite et cohérente justifiant son utilisation.`,
+    list:[
+      `Lire les pensées d'un autre détenteur de Résonance (nécessite un /roll)`,
+      `Communiquer par télépathie avec un autre détenteur (nécessite un /roll)`,
+      `Percevoir l'énergie des Alters environnants sans passer par la vue`,
+      `Transférer une partie de sa propre énergie à une cible, technique pouvant coûter la vie à l'utilisateur (nécessite un /roll)`
+    ]},
+  {id:'qr3', cat:'qr', sev:'avertissement', title:"Mutilation et torture RP",
+    body:`Toute scène impliquant une mutilation ou une torture doit faire l'objet d'une demande préalable validée par un membre du staff — ces scènes ne peuvent pas être initiées spontanément. Un avertissement HRP doit être adressé aux joueurs mineurs ou sensibles avant d'entamer ce type de scène ; leur consentement est requis pour qu'ils puissent choisir de se retirer.`},
+  {id:'qr4', cat:'qr', sev:'avertissement', title:"Nomu et créatures sauvages",
+    body:`Un Nomu ou toute créature sauvage doit rester cohérent avec son comportement (instincts, agressivité, territoire) et ne peut apparaître n'importe où sans justification RP. Ces créatures sont interdites dans les zones d'entraînement encadrées (arènes, dojos).`,
+    exBad:`Un Nomu en plein milieu d'un marché animé, sans la moindre raison RP.`},
+  {id:'qr5', cat:'qr', sev:'avertissement', title:"Menaces de rang S et personnages canon",
+    body:`L'apparition d'un personnage canon majeur ou d'une menace de rang S est un évènement exceptionnel, non décidé par les joueurs eux-mêmes : elle doit être demandée aux animateurs ou validée par le staff. Un joueur qui prétend avoir rencontré, affronté ou côtoyé un tel personnage sans validation commet du Win RP.`},
+
+  // ===== CO =====
+  {id:'co1', cat:'co', sev:'information', title:"Utilisation du /roll",
+    body:`Le /roll résout une action incertaine dont l'issue dépend des capacités des protagonistes — le contexte prime toujours sur le tirage.`,
+    list:[
+      `Interdit d'empêcher un adversaire bien plus fort d'accomplir une action simple`,
+      `Interdit d'éviter une attaque venant d'un angle entièrement invisible`,
+      `Interdit de résoudre une action simple et évidente (ex. un héros surpuissant déplace un objet lourd)`
+    ],
+    table:[["Action facile","/roll ≥ 25"],["Action moyenne","/roll ≥ 50"],["Action difficile","/roll ≥ 75"]]},
+  {id:'co3', cat:'co', sev:'information', title:"Mass RP",
+    body:`Certains lieux sont considérés comme toujours occupés, même si aucun joueur n'y est visible :`,
+    list:[`Commissariat de Police`,`Agences de Héros`,`Académie`,`Centre Commercial`,`Hôpital`,`Commission de la Sécurité Publique des Héros`]},
+  {id:'co4', cat:'co', sev:'avertissement', title:"Interactions relationnelles",
+    body:`Toute romance explicite, séduction, intimité physique dépassant un contact neutre, grossesse ou acte intime même implicite est interdite. Les liens familiaux (parenté, fratrie, adoption) sont autorisés dans un cadre sobre et non ambigu — tout jeu dérivant vers un sentiment excessif ou déplacé sera sanctionné.`},
+  {id:'co5', cat:'co', sev:'avertissement', title:"Incrustations de scène",
+    body:`Il est interdit de rejoindre une scène RP en cours uniquement pour en tirer profit, sans y avoir été impliqué naturellement ou y avoir été convié.`,
+    exBad:`S'insérer dans un combat ou une arrestation en cours pour récupérer du butin ou protéger un allié, sans justification RP préalable.`,
+    exGood:`Passer à proximité et réagir naturellement à ce que ton personnage voit, sans chercher à en profiter directement.`},
+
+  // ===== SA =====
+  {id:'sa1', cat:'sa', sev:'information', title:"Principe général",
+    body:`Les sanctions peuvent être ajustées selon la gravité des faits, les preuves disponibles et le comportement du joueur durant l'intervention.`},
+  {id:'sa2', cat:'sa', sev:'avertissement', title:"Contestation",
+    body:`Toute contestation d'une sanction se fait uniquement via un ticket Discord. La contester directement en jeu entraîne une sanction supplémentaire.`},
+  {id:'sa3', cat:'sa', sev:'information', title:"Mise à jour du règlement",
+    body:`Le règlement peut évoluer à tout moment selon les besoins du serveur. Toute modification sera annoncée sur le Discord ou directement en jeu.`},
+  {id:'sa4', cat:'sa', sev:'information', title:"Bon sens",
+    body:`Le staff se réserve le droit d'appliquer une sanction même en l'absence de règle spécifique, dès lors que cela relève du bon sens et de la logique. La règle correspondante sera ajoutée par la suite si nécessaire.`},
+];
+
+let activeCat = 'rg';
+let isSearching = false;
+
+const catListEl = document.getElementById('catList');
+const ruleListEl = document.getElementById('ruleList');
+const chBadge = document.getElementById('chBadge');
+const chTitle = document.getElementById('chTitle');
+const chCount = document.getElementById('chCount');
+const searchInput = document.getElementById('searchInput');
+
+function countFor(id){ return RULES.filter(r=>r.cat===id).length; }
+
+function renderCategories(){
+  catListEl.innerHTML = CATS.map(c => `
+    <button class="cat-btn ${(c.id===activeCat && !isSearching) ? 'active':''}" data-cat="${c.id}" style="--accent:${c.accent}">
+      <span class="cat-code">${c.code}</span>
+      <span class="cat-name">${c.name}</span>
+      <span class="cat-count">${countFor(c.id)}</span>
+    </button>`).join('');
+}
+
+function selectCat(id){
+  activeCat = id;
+  isSearching = false;
+  searchInput.value = '';
+  render();
+}
+
+function exampleBlockHTML(r){
+  let parts = [];
+  if(r.exBad) parts.push(`<div class="ex bad"><span class="ex-label">✕ Interdit</span><p>${r.exBad}</p></div>`);
+  if(r.exGood) parts.push(`<div class="ex good"><span class="ex-label">✓ Correct</span><p>${r.exGood}</p></div>`);
+  if(r.exNeutral) parts.push(`<div class="ex neutral"><span class="ex-label">Exemple</span><p>${r.exNeutral}</p></div>`);
+  if(!parts.length) return '';
+  return `<div class="example">${parts.join('')}</div>`;
+}
+
+function ruleRowHTML(r, num, showCatTag){
+  const meta = CATS.find(c=>c.id===r.cat);
+  let extra = '';
+  if(r.list) extra += `<ul>${r.list.map(li=>`<li>${li}</li>`).join('')}</ul>`;
+  if(r.table) extra += `<table class="mini-table"><tr><th>Difficulté</th><th>Seuil de réussite</th></tr>${r.table.map(t=>`<tr><td>${t[0]}</td><td>${t[1]}</td></tr>`).join('')}</table>`;
+  extra += exampleBlockHTML(r);
+  return `
+    <div class="rule-row" id="row-${r.id}">
+      <button class="rule-head" data-rule="${r.id}">
+        <span class="rn ${r.sev}">${num}</span>
+        <span class="rt">${r.title}</span>
+        ${showCatTag ? `<span class="cat-tag">${meta.code}</span>` : ''}
+        <span class="chev" id="chev-${r.id}">›</span>
+      </button>
+      <div class="rule-body" id="body-${r.id}">
+        <p>${r.body}</p>
+        ${extra}
+      </div>
+    </div>`;
+}
+
+function toggleRule(id){
+  document.getElementById('row-'+id).classList.toggle('open');
+}
+
+catListEl.addEventListener('click', function(e){
+  const btn = e.target.closest('.cat-btn');
+  if(!btn) return;
+  selectCat(btn.getAttribute('data-cat'));
+});
+
+ruleListEl.addEventListener('click', function(e){
+  const btn = e.target.closest('.rule-head');
+  if(!btn) return;
+  toggleRule(btn.getAttribute('data-rule'));
+});
+
+function render(){
+  renderCategories();
+  let list, code, name, count, accent;
+  if(isSearching){
+    const q = searchInput.value.trim().toLowerCase();
+    list = RULES.filter(r => r.title.toLowerCase().includes(q) || r.body.toLowerCase().includes(q));
+    code = '🔍'; name = 'Résultats de recherche'; accent = '#2f8fef';
+    count = list.length + (list.length>1 ? ' résultats' : ' résultat');
+  } else {
+    list = RULES.filter(r=>r.cat===activeCat);
+    const meta = CATS.find(c=>c.id===activeCat);
+    code = meta.code; name = meta.name; accent = meta.accent;
+    count = list.length + (list.length>1 ? ' règles' : ' règle');
+  }
+  document.querySelector('.content').style.setProperty('--accent', accent);
+  chBadge.textContent = code;
+  chTitle.textContent = name;
+  chCount.textContent = count;
+  ruleListEl.innerHTML = list.length
+    ? list.map((r,i)=> ruleRowHTML(r, i+1, isSearching)).join('')
+    : `<div class="empty">Aucune règle ne correspond à ta recherche.</div>`;
+}
+
+searchInput.addEventListener('input', ()=>{
+  isSearching = searchInput.value.trim().length > 0;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
