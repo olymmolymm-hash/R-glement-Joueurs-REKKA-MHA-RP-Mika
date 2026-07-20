@@ -447,14 +447,14 @@
 const CATS = [
   {id:'rg', code:'RG', name:'Règles Générales', accent:'#ff4d4d'},
   {id:'rp', code:'RP', name:'Fondamentaux RP', accent:'#22e0a0'},
-  {id:'cb', code:'CB', name:'Combat', accent:'#ff9a34'},
-  {id:'qr', code:'AR', name:'Alters Rares', accent:'#b478ff'},
   {id:'co', code:'CO', name:'Communication', accent:'#3fd0ff'},
   {id:'sa', code:'SA', name:'Sanctions', accent:'#ff5c96'},
 ];
 
 const RULES = [
   // ===== RG =====
+  {id:'rg0', cat:'rg', sev:'information', title:"Le RP, c'est quoi ?",
+    body:`Le Roleplay consiste à incarner un personnage dans un monde imaginaire mais cohérent. Tu dois penser, parler et agir comme ton personnage, tout en respectant l'univers de My Hero Academia.`},
   {id:'rg1', cat:'rg', sev:'critique', title:"IC / OOC — Interdiction du Méta-Gaming",
     body:`L'IC (In Character) regroupe toutes les paroles, décisions et actions de ton personnage : elles doivent rester cohérentes avec son histoire, sa personnalité et ses limites. L'OOC (Out of Character) regroupe tout ce qui sort de l'univers RP (discussions hors-jeu, Discord, etc.). Il est strictement interdit de mélanger les deux, notamment d'utiliser une information apprise hors RP pour agir en RP.`,
     exBad:`Voir un vilain commettre un délit sur le stream Twitch d'un joueur, puis partir l'arrêter en RP sans jamais l'avoir croisé IC.`,
@@ -468,9 +468,13 @@ const RULES = [
   {id:'rg4', cat:'rg', sev:'critique', title:"Exploits et bugs",
     body:`Utiliser un bug pour obtenir un avantage entraîne un bannissement immédiat. Le prop-block et le prop-climb sont interdits. Il est également interdit d'utiliser un Alter de déplacement pour traverser un mur, un sol ou une zone bloquée, ainsi que de masquer artificiellement son costume ou son Alter pour tromper la reconnaissance IC en pleine scène.`},
   {id:'rg5', cat:'rg', sev:'avertissement', title:"Arnaques et échanges",
-    body:`Les arnaques sont strictement interdites. Les seuls échanges sûrs se font via le market ou via un ticket Discord pour tout échange dépassant 1 000 000 ¥. Le serveur ne garantit pas les échanges passant par d'autres moyens.`},
+    body:`Les arnaques sont strictement interdites. Les seuls échanges sûrs se font via le market ou via un ticket Discord.`},
   {id:'rg6', cat:'rg', sev:'information', title:"Character Kill (CK)",
     body:`Aucun Character Kill n'est autorisé sans l'autorisation d'un administrateur. Un dossier solide, détaillant des raisons valides, doit être soumis et validé au préalable.`},
+  {id:'rg6b', cat:'rg', sev:'critique', title:"Actions illégales",
+    body:`Les actions de grande envergure, comme les prises d'otage ou les attaques coordonnées de grande ampleur, doivent être validées par un administrateur avant d'être menées.`},
+  {id:'rg6c', cat:'rg', sev:'information', title:"Infiltration",
+    body:`Les infiltrations dans une agence de héros ou une organisation de vilains doivent se faire sous validation staff, avec un dossier détaillé incluant les raisons, l'apport en RP et les actions prévues.`},
   {id:'rg7', cat:'rg', sev:'critique', title:"RP à caractère sexuel",
     body:`Ce type de RP est strictement interdit, sans exception. Toute allusion ou tentative sera sanctionnée d'un bannissement permanent.`},
 
@@ -481,7 +485,7 @@ const RULES = [
     exGood:`/me tente de traverser le bâtiment en feu, mais la chaleur devient insoutenable + /roll pour l'issue.`},
   {id:'rp2', cat:'rp', sev:'avertissement', title:"FearRP",
     body:`Ton personnage n'est pas un héros sans peur : ignorer un danger extrême est interdit, même s'il possède un Alter offensif.`,
-    exGood:`Fuir ou montrer une panique clairement RP face à un vilain surpuissant ou un Nomu hors de contrôle.`},
+    exGood:`Fuir ou montrer une panique clairement RP face à un vilain surpuissant ou une menace hors de contrôle.`},
   {id:'rp3', cat:'rp', sev:'avertissement', title:"NLR — Nouvelle Vie",
     body:`Après la mort de ton personnage, celui-ci revient confus et ne garde que des souvenirs flous de ce qu'il s'est passé. Il est impossible de revenir dans la zone de sa mort avant 10 minutes.`,
     exBad:`Revenir immédiatement affronter la personne qui vient de te tuer.`,
@@ -502,46 +506,6 @@ const RULES = [
     exBad:`Changer de costume de héros instantanément pour ne plus être reconnu.`,
     exGood:`Utiliser un /me ou /na pour décrire le changement et laisser le temps à l'autre joueur de réagir.`},
 
-  // ===== CB =====
-  {id:'cb1', cat:'cb', sev:'avertissement', title:"Zones de combat",
-    body:`Les combats servent à régler des conflits ou à mettre en scène un affrontement héros/vilain. Ils sont interdits dans les villes et zones publiques, sauf scène de vilain scénarisée assumant les conséquences. Utilisez les zones d'entraînement ou terrains reculés prévus à cet effet.`},
-  {id:'cb2', cat:'cb', sev:'information', title:"Mêlée générale",
-    body:`En mêlée générale, les affrontements sont limités à 4 combattants maximum par camp. Si le nombre de participants dépasse ce seuil, ils se divisent en plusieurs groupes distincts selon leur proximité au moment de l'engagement.`,
-    exNeutral:`16 participants présents → 2 combats de 4v4. Un combattant engagé dans un groupe ne peut pas interférer dans un autre groupe.`},
-  {id:'cb3', cat:'cb', sev:'avertissement', title:"Pain RP en combat",
-    body:`Un personnage qui n'est pas mis hors combat doit jouer les conséquences des coups reçus. Il ne peut pas se relever et repartir comme si de rien n'était.`,
-    exBad:`Encaisser plusieurs attaques puissantes et continuer à se battre sans en subir les effets.`,
-    exGood:`/me trébuche, ralenti par la douleur et les dommages subis.`},
-  {id:'cb4', cat:'cb', sev:'critique', title:"Alter utilisé sur un civil",
-    body:`Un civil n'est pas préparé à encaisser un Alter. Utiliser un Alter offensif sur un civil revient presque toujours à le tuer ou le mutiler gravement. Sauf situation narrative d'une gravité extrême et justifiée, c'est considéré comme du FailRP.`},
-  {id:'cb5', cat:'cb', sev:'avertissement', title:"Alters interdits en combat RP",
-    body:`Les Alters de vol et d'invisibilité sont interdits en combat RP, sauf événement spécial validé par le staff. Un Alter de vol ne peut en aucun cas servir à fuir une scène en cours.`},
-
-  // ===== QR =====
-  {id:'qr1', cat:'qr', sev:'critique', title:"Alters de contrôle, marquage & liens psychiques",
-    body:`Tout Alter de contrôle direct, de marquage ou de lien psychique doit être validé par le staff via une trame RP avant sa mise en place.`,
-    list:[
-      `Le contrôle direct des actions d'un joueur est interdit sans validation`,
-      `L'altération forcée de la personnalité ou des décisions est interdite sans validation`,
-      `La lecture de mémoire nécessite le consentement du joueur ciblé ou un roll encadré`,
-      `Sans validation staff, l'action est nulle et sanctionnable`
-    ]},
-  {id:'qr2', cat:'qr', sev:'information', title:"La Résonance",
-    body:`La Résonance est une forme rare de perception liée à l'énergie des Alters, présente chez une poignée d'individus dotés d'un Alter de perception ou d'esprit particulièrement développé. Elle doit être utilisée comme un outil narratif profond, favorisant les interactions RP — jamais comme un moyen de détection systématique, de métagaming ou d'avantage injustifié. Toute demande liée à la Résonance doit faire l'objet d'une validation préalable par le staff RP via ticket, avec une trame RP écrite et cohérente justifiant son utilisation.`,
-    list:[
-      `Lire les pensées d'un autre détenteur de Résonance (nécessite un /roll)`,
-      `Communiquer par télépathie avec un autre détenteur (nécessite un /roll)`,
-      `Percevoir l'énergie des Alters environnants sans passer par la vue`,
-      `Transférer une partie de sa propre énergie à une cible, technique pouvant coûter la vie à l'utilisateur (nécessite un /roll)`
-    ]},
-  {id:'qr3', cat:'qr', sev:'avertissement', title:"Mutilation et torture RP",
-    body:`Toute scène impliquant une mutilation ou une torture doit faire l'objet d'une demande préalable validée par un membre du staff — ces scènes ne peuvent pas être initiées spontanément. Un avertissement HRP doit être adressé aux joueurs mineurs ou sensibles avant d'entamer ce type de scène ; leur consentement est requis pour qu'ils puissent choisir de se retirer.`},
-  {id:'qr4', cat:'qr', sev:'avertissement', title:"Nomu et créatures sauvages",
-    body:`Un Nomu ou toute créature sauvage doit rester cohérent avec son comportement (instincts, agressivité, territoire) et ne peut apparaître n'importe où sans justification RP. Ces créatures sont interdites dans les zones d'entraînement encadrées (arènes, dojos).`,
-    exBad:`Un Nomu en plein milieu d'un marché animé, sans la moindre raison RP.`},
-  {id:'qr5', cat:'qr', sev:'avertissement', title:"Menaces de rang S et personnages canon",
-    body:`L'apparition d'un personnage canon majeur ou d'une menace de rang S est un évènement exceptionnel, non décidé par les joueurs eux-mêmes : elle doit être demandée aux animateurs ou validée par le staff. Un joueur qui prétend avoir rencontré, affronté ou côtoyé un tel personnage sans validation commet du Win RP.`},
-
   // ===== CO =====
   {id:'co1', cat:'co', sev:'information', title:"Utilisation du /roll",
     body:`Le /roll résout une action incertaine dont l'issue dépend des capacités des protagonistes — le contexte prime toujours sur le tirage.`,
@@ -552,8 +516,17 @@ const RULES = [
     ],
     table:[["Action facile","/roll ≥ 25"],["Action moyenne","/roll ≥ 50"],["Action difficile","/roll ≥ 75"]]},
   {id:'co3', cat:'co', sev:'information', title:"Mass RP",
-    body:`Certains lieux sont considérés comme toujours occupés, même si aucun joueur n'y est visible :`,
-    list:[`Commissariat de Police`,`Agences de Héros`,`Académie`,`Centre Commercial`,`Hôpital`,`Commission de la Sécurité Publique des Héros`]},
+    body:`Le Mass RP considère certains lieux comme toujours habités et actifs — professeurs, employés, gardes, civils, personnel soignant — même si aucun joueur n'incarne physiquement ces figures à l'instant T. Cette présence est fictive mais IC : il est interdit d'agir en RP en partant du principe qu'un lieu est « vide » simplement parce qu'aucun joueur n'y est connecté. Cela vaut dans les deux sens : ni pour agir discrètement sans témoin, ni pour prétendre n'avoir trouvé aucune aide alors qu'il devrait y en avoir.`,
+    list:[
+      `<b>Université</b> — Cours, professeurs-héros et surveillance toujours en session. Exemple : impossible de s'infiltrer dans les locaux en pleine journée en supposant que c'est vide, des enseignants et élèves sont toujours présents en classe.`,
+      `<b>Mairie</b> — Personnel administratif et sécurité toujours présents à l'accueil. Exemple : impossible de fouiller le bureau du maire en supposant une absence de personnel, une secrétaire ou un agent est toujours supposé présent.`,
+      `<b>Commissariat</b> — Officiers de garde présents en permanence, y compris la nuit. Exemple : voler un dossier en pleine nuit en supposant l'absence de personnel est interdit, une permanence est toujours assurée.`,
+      `<b>Banque</b> — Guichetier, agent de sécurité et caméras toujours actifs. Exemple : un braquage doit se jouer avec la présence implicite du personnel (alarme, réaction du garde...), jamais en supposant un établissement vide.`,
+      `<b>Ville (rues et lieux publics)</b> — Population civile ambiante toujours présente en arrière-plan. Exemple : commettre un crime en pleine rue en supposant l'absence totale de témoins est interdit, des passants peuvent toujours voir la scène et réagir.`,
+      `<b>Agences de vilains</b> — Membres, gardes ou alliés toujours présents sur place. Exemple : un repaire ne peut pas être considéré comme abandonné simplement parce qu'aucun vilain-joueur n'est connecté, des gardes peuvent toujours être rencontrés.`,
+      `<b>Agences de héros</b> — Assistants, stagiaires ou personnel d'accueil toujours présents. Exemple : consulter discrètement des dossiers en supposant une agence vide est interdit, un(e) stagiaire est toujours supposé(e) présent(e).`,
+      `<b>Hôpital</b> — Médecins, infirmiers et sécurité en service permanent, y compris la nuit. Exemple : impossible d'agir discrètement sur un patient en supposant l'absence de soignants ; à l'inverse, un personnage blessé arrivant aux urgences est toujours pris en charge par une infirmière, même si aucun joueur n'incarne le personnel soignant à cet instant.`
+    ]},
   {id:'co4', cat:'co', sev:'avertissement', title:"Interactions relationnelles",
     body:`Toute romance explicite, séduction, intimité physique dépassant un contact neutre, grossesse ou acte intime même implicite est interdite. Les liens familiaux (parenté, fratrie, adoption) sont autorisés dans un cadre sobre et non ambigu — tout jeu dérivant vers un sentiment excessif ou déplacé sera sanctionné.`},
   {id:'co5', cat:'co', sev:'avertissement', title:"Incrustations de scène",
