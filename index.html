@@ -331,6 +331,14 @@
     content:"»";
     position:absolute; left:0; color:var(--accent, var(--hero-blue)); font-weight:700;
   }
+  .rule-note{
+    margin-top:12px;
+    font-size:13px !important;
+    font-style:italic;
+    color:#4a5068 !important;
+    border-top:1px solid rgba(16,23,43,.1);
+    padding-top:10px;
+  }
 
   .example{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
   .ex{ border-left:3px solid; padding:8px 12px; border-radius:0 7px 7px 0; background:rgba(16,23,43,.045); }
@@ -471,12 +479,39 @@ const RULES = [
     body:`Les arnaques sont strictement interdites. Les seuls échanges sûrs se font via le market ou via un ticket Discord.`},
   {id:'rg6', cat:'rg', sev:'information', title:"Character Kill (CK)",
     body:`Aucun Character Kill n'est autorisé sans l'autorisation d'un administrateur. Un dossier solide, détaillant des raisons valides, doit être soumis et validé au préalable.`},
-  {id:'rg6b', cat:'rg', sev:'critique', title:"Actions illégales",
-    body:`Les actions de grande envergure, comme les prises d'otage ou les attaques coordonnées de grande ampleur, doivent être validées par un administrateur avant d'être menées.`},
   {id:'rg6c', cat:'rg', sev:'information', title:"Infiltration",
     body:`Les infiltrations dans une agence de héros ou une organisation de vilains doivent se faire sous validation staff, avec un dossier détaillé incluant les raisons, l'apport en RP et les actions prévues.`},
   {id:'rg7', cat:'rg', sev:'critique', title:"RP à caractère sexuel",
     body:`Ce type de RP est strictement interdit, sans exception. Toute allusion ou tentative sera sanctionnée d'un bannissement permanent.`},
+  {id:'rg8', cat:'rg', sev:'avertissement', title:"Torture RP",
+    body:`La torture est autorisée uniquement lorsqu'elle est cohérente avec le contexte RP et ne doit jamais avoir pour seul but de nuire à l'expérience d'un autre joueur.`,
+    list:[
+      `Les tortures entraînant des conséquences importantes ou permanentes (amputation, perte d'un membre, perte d'un œil, brûlures irréversibles, traumatismes majeurs, etc.) sont strictement interdites sans l'autorisation préalable d'un membre du staff`,
+      `Toute torture doit rester raisonnable, progressive et crédible dans un contexte RP`,
+      `Le joueur victime doit toujours avoir la possibilité de poursuivre son rôle après la scène`,
+      `Il est interdit d'utiliser la torture comme prétexte pour faire du Power-Gaming ou pour humilier gratuitement un joueur`,
+      `En cas de désaccord ou de situation sensible, un membre du staff peut intervenir à tout moment pour encadrer ou arrêter la scène`
+    ]},
+  {id:'rg9', cat:'rg', sev:'avertissement', title:"Fair-Play",
+    body:`Le Fair-Play est une règle fondamentale du serveur. Chaque joueur doit chercher à créer un RP agréable et équilibré pour l'ensemble des participants.`,
+    list:[
+      `Il est interdit de chercher à gagner toutes les situations par tous les moyens`,
+      `Acceptez que votre personnage puisse perdre, être capturé, blessé ou échouer lors d'une action RP`,
+      `N'abusez pas des mécaniques du jeu ou de votre alter dans le seul but d'obtenir un avantage injuste`,
+      `Favorisez le développement d'une scène RP plutôt que la victoire à tout prix`,
+      `Tout comportement visant à volontairement gâcher l'expérience RP d'un autre joueur pourra être sanctionné`
+    ],
+    note:`Le but du serveur est de raconter une histoire ensemble, pas de remporter chaque confrontation.`},
+  {id:'rg10', cat:'rg', sev:'avertissement', title:"Block RP",
+    body:`Le Block RP consiste à empêcher volontairement le déroulement d'une scène RP ou à bloquer l'action d'autres joueurs sans justification RP valable. Sont considérés comme du Block RP :`,
+    list:[
+      `Bloquer volontairement un accès, une porte ou un passage sans raison RP`,
+      `Refuser systématiquement toute interaction RP dans le seul but d'empêcher une scène d'avancer`,
+      `Utiliser des objets, props ou véhicules pour gêner ou empêcher le RP des autres joueurs`,
+      `Exploiter une mécanique du jeu pour rendre une action RP impossible sans justification`,
+      `Quitter volontairement une scène ou se mettre hors d'atteinte uniquement pour éviter les conséquences RP`
+    ],
+    note:`Le Block RP est interdit et pourra être sanctionné si un joueur empêche délibérément le bon déroulement du RP.`},
 
   // ===== RP =====
   {id:'rp1', cat:'rp', sev:'avertissement', title:"Power-Gaming",
@@ -492,8 +527,7 @@ const RULES = [
     exGood:`Attendre au moins 10 minutes avant de retourner dans la zone, avec des souvenirs flous des évènements.`},
   {id:'rp4', cat:'rp', sev:'avertissement', title:"Win RP et Pain RP",
     body:`Le Win RP consiste à toujours vouloir avoir le dernier mot ou sortir gagnant, sans jamais laisser de place à l'échec : c'est interdit. Le Pain RP oblige à jouer la douleur et les effets d'une action subie — personne n'est invincible, même avec un Alter de résistance.`,
-    exBad:`Se relever comme si de rien n'était après une attaque puissante.`,
-    exGood:`/me gémit et recule lentement, un bras engourdi par le choc.`},
+    exBad:`Se relever comme si de rien n'était après une attaque puissante.`},
   {id:'rp5', cat:'rp', sev:'avertissement', title:"Refus de scène",
     body:`Ignorer une scène RP commencée avec toi est interdit. Fuir sans raison RP ou se déconnecter en pleine arrestation ou poursuite est sanctionné.`,
     exBad:`Se déconnecter en pleine arrestation pour échapper aux conséquences.`,
@@ -504,18 +538,8 @@ const RULES = [
   {id:'rp7', cat:'rp', sev:'avertissement', title:"Fast RP",
     body:`Faire une action mécaniquement possible mais irréaliste dans le temps du monde RP est interdit.`,
     exBad:`Changer de costume de héros instantanément pour ne plus être reconnu.`,
-    exGood:`Utiliser un /me ou /na pour décrire le changement et laisser le temps à l'autre joueur de réagir.`},
-
-  // ===== CO =====
-  {id:'co1', cat:'co', sev:'information', title:"Utilisation du /roll",
-    body:`Le /roll résout une action incertaine dont l'issue dépend des capacités des protagonistes — le contexte prime toujours sur le tirage.`,
-    list:[
-      `Interdit d'empêcher un adversaire bien plus fort d'accomplir une action simple`,
-      `Interdit d'éviter une attaque venant d'un angle entièrement invisible`,
-      `Interdit de résoudre une action simple et évidente (ex. un héros surpuissant déplace un objet lourd)`
-    ],
-    table:[["Action facile","/roll ≥ 25"],["Action moyenne","/roll ≥ 50"],["Action difficile","/roll ≥ 75"]]},
-  {id:'co3', cat:'co', sev:'information', title:"Mass RP",
+    exGood:`Utiliser un /me pour décrire le changement et laisser le temps à l'autre joueur de réagir.`},
+  {id:'rp8', cat:'rp', sev:'information', title:"Mass RP",
     body:`Le Mass RP considère certains lieux comme toujours habités et actifs — professeurs, employés, gardes, civils, personnel soignant — même si aucun joueur n'incarne physiquement ces figures à l'instant T. Cette présence est fictive mais IC : il est interdit d'agir en RP en partant du principe qu'un lieu est « vide » simplement parce qu'aucun joueur n'y est connecté. Cela vaut dans les deux sens : ni pour agir discrètement sans témoin, ni pour prétendre n'avoir trouvé aucune aide alors qu'il devrait y en avoir.`,
     list:[
       `<b>Université</b> — Cours, professeurs-héros et surveillance toujours en session. Exemple : impossible de s'infiltrer dans les locaux en pleine journée en supposant que c'est vide, des enseignants et élèves sont toujours présents en classe.`,
@@ -527,11 +551,21 @@ const RULES = [
       `<b>Agences de héros</b> — Assistants, stagiaires ou personnel d'accueil toujours présents. Exemple : consulter discrètement des dossiers en supposant une agence vide est interdit, un(e) stagiaire est toujours supposé(e) présent(e).`,
       `<b>Hôpital</b> — Médecins, infirmiers et sécurité en service permanent, y compris la nuit. Exemple : impossible d'agir discrètement sur un patient en supposant l'absence de soignants ; à l'inverse, un personnage blessé arrivant aux urgences est toujours pris en charge par une infirmière, même si aucun joueur n'incarne le personnel soignant à cet instant.`
     ]},
+
+  // ===== CO =====
+  {id:'co1', cat:'co', sev:'information', title:"Utilisation du /roll",
+    body:`Le /roll résout une action incertaine dont l'issue dépend des capacités des protagonistes — le contexte prime toujours sur le tirage.`,
+    list:[
+      `Interdit d'empêcher un adversaire bien plus fort d'accomplir une action simple`,
+      `Interdit d'éviter une attaque venant d'un angle entièrement invisible`,
+      `Interdit de résoudre une action simple et évidente (ex. un héros surpuissant déplace un objet lourd)`
+    ],
+    table:[["Action facile","/roll ≥ 25"],["Action moyenne","/roll ≥ 50"],["Action difficile","/roll ≥ 75"]]},
   {id:'co4', cat:'co', sev:'avertissement', title:"Interactions relationnelles",
     body:`Toute romance explicite, séduction, intimité physique dépassant un contact neutre, grossesse ou acte intime même implicite est interdite. Les liens familiaux (parenté, fratrie, adoption) sont autorisés dans un cadre sobre et non ambigu — tout jeu dérivant vers un sentiment excessif ou déplacé sera sanctionné.`},
-  {id:'co5', cat:'co', sev:'avertissement', title:"Incrustations de scène",
+  {id:'co5', cat:'co', sev:'avertissement', title:"Immixtion dans une scène",
     body:`Il est interdit de rejoindre une scène RP en cours uniquement pour en tirer profit, sans y avoir été impliqué naturellement ou y avoir été convié.`,
-    exBad:`S'insérer dans un combat ou une arrestation en cours pour récupérer du butin ou protéger un allié, sans justification RP préalable.`,
+    exBad:`S'insérer dans un combat ou une arrestation en cours pour récupérer du butin, sans justification RP préalable.`,
     exGood:`Passer à proximité et réagir naturellement à ce que ton personnage voit, sans chercher à en profiter directement.`},
 
   // ===== SA =====
@@ -587,6 +621,7 @@ function ruleRowHTML(r, num, showCatTag){
   let extra = '';
   if(r.list) extra += `<ul>${r.list.map(li=>`<li>${li}</li>`).join('')}</ul>`;
   if(r.table) extra += `<table class="mini-table"><tr><th>Difficulté</th><th>Seuil de réussite</th></tr>${r.table.map(t=>`<tr><td>${t[0]}</td><td>${t[1]}</td></tr>`).join('')}</table>`;
+  if(r.note) extra += `<p class="rule-note">${r.note}</p>`;
   extra += exampleBlockHTML(r);
   return `
     <div class="rule-row" id="row-${r.id}">
